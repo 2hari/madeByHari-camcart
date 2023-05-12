@@ -1,6 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document"
 
-import { exoFont } from "@/styles/theme"
+import { exoFont } from "@/styles/font"
 
 export default function Document() {
   return (
