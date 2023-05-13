@@ -1,9 +1,12 @@
 import Link from "next/link"
 import Image from "next/image"
 
+import slugify from "slugify"
+
 const Product = ({ product }: { product: any }) => {
+  console.log(product)
   return (
-    <Link href={`/product/${product.id}`}>
+    <Link href={`/product/${product.attributes.slug}`}>
       <div className="grad w-full h-[362px] rounded-[8px] overflow-hidden relative group">
         {/* badge */}
         {product.attributes.isNew ? (
@@ -17,7 +20,7 @@ const Product = ({ product }: { product: any }) => {
         <div className="w-full h-[200px] flex items-center justify-center relative">
           <Image
             className="group-hover:scale-90 transition-all"
-            src={product.attributes.image.data.attributes.url}
+            src={product.attributes.image.data?.attributes.url}
             width={160}
             height={160}
             alt={product.attributes.categories.data[0].attributes.title}

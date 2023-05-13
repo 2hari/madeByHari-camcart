@@ -6,6 +6,7 @@ import useFetch from "@/utils/useFetch"
 const CategoryNav = () => {
   const { data, isLoading } = useFetch("/categories")
   if (isLoading) return <p>loading ....</p>
+  // console.log(data)
   return (
     <aside className="hidden xl:flex">
       <div className="bg-primary flex flex-col w-[286px] h-[500px] rounded-[8px] overflow-hidden">
@@ -17,7 +18,7 @@ const CategoryNav = () => {
             (data as unknown as any[]).map((category) => {
               return (
                 <Link
-                  href={`/products/${category.id}`}
+                  href={`/category/${category.attributes.title}`}
                   className="cursor-pointer uppercase"
                   key={category.id}
                 >

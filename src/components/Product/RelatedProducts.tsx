@@ -1,14 +1,10 @@
-import useFetch from "@/utils/useFetch"
 import ProductSlider from "./ProductSlider"
+import useFetch from "@/utils/useFetch"
 
-const TopProducts = () => {
-  const { data, isLoading } = useFetch("/products", {
-    populate: "*",
-    filters: { isNew: true },
-  })
-
-  if (isLoading) return <p>loading...</p>
-  // console.log(data)
+const RelatedProducts = ({ categoryTitle }: { categoryTitle: string }) => {
+  const { data } = useFetch(
+    `/products?populate=*&filters[categories][title]=${categoryTitle}`
+  )
 
   return (
     <div className=" mb-16">
@@ -20,4 +16,4 @@ const TopProducts = () => {
   )
 }
 
-export default TopProducts
+export default RelatedProducts

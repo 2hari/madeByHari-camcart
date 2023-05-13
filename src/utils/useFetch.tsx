@@ -1,16 +1,23 @@
-import { useState, useEffect } from "react"
+import qs from "qs"
+import { useState, useEffect, useMemo } from "react"
 import { request } from "./helpers"
 
-const useFetch = (url: string) => {
+const useFetch = (path: string, urlParamsObject?: object) => {
   const [data, setData] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<Error | null>(null)
+
+  const requestUrl = useMemo(
+    () =>
+      `${path}${urlParamsObject ? `?${qs.stringify(urlParamsObject)}` : ""}`,
+    [urlParamsObject, path]
+  )
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true)
       try {
-        const res = await request.get(url)
+        const res = await request.get(requestUrl)
         setData(res.data.data)
       } catch (error) {
         setError(error as Error)
@@ -18,9 +25,7 @@ const useFetch = (url: string) => {
       setIsLoading(false)
     }
     fetchData()
-  }, [url])
-
-  console.log(data)
+  }, [requestUrl])
 
   return { data, isLoading, error }
 }
