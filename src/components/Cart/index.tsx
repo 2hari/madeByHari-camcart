@@ -2,6 +2,8 @@ import { IoArrowForward, IoCartOutline, IoClose } from "react-icons/io5"
 import CartItem from "./CartItem"
 import { CartItem as CartItemType } from "@/utils/types"
 import useCart from "@/utils/useCart"
+import getStripe from "@/utils/get-stripe"
+import { request } from "@/utils/helpers"
 
 const Cart = () => {
   const {
@@ -11,15 +13,26 @@ const Cart = () => {
     REDUCER_ACTIONS,
   } = useCart()
 
-  const handlePayment = async () => {
-    return "hello"
-  }
-
   const closeCart = () => {
     dispatch({ type: REDUCER_ACTIONS.CLOSE })
   }
 
   const emptyCart = () => dispatch({ type: REDUCER_ACTIONS.SUBMIT })
+
+  const handlePayment = async () => {
+    try {
+      const stripe = await getStripe()
+      const res = await request.post("/orders", {
+        cart,
+      })
+
+      await stripe!.redirectToCheckout({
+        sessionId: res.data.stripeSession.id,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="w-full h-full p-8 px-4 text-white">
@@ -42,13 +55,13 @@ const Cart = () => {
         <div className="px-6 py-10 flex flex-col">
           {/* subtotal */}
           <div className="flex justify-between text-lg">
-            <div>Subtotal</div>
-            <div>$ {totalItems}</div>
+            <div>Items</div>
+            <div>{totalItems}</div>
           </div>
           {/* total */}
           <div className="flex justify-between text-2xl">
             <div>Total</div>
-            <div>$ {totalPrice}</div>
+            <div>{totalPrice}</div>
           </div>
         </div>
       )}
