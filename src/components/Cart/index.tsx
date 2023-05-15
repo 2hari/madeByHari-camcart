@@ -4,6 +4,7 @@ import { CartItem as CartItemType } from "@/utils/types"
 import useCart from "@/utils/useCart"
 import getStripe from "@/utils/get-stripe"
 import { request } from "@/utils/helpers"
+import axios from "axios"
 
 const Cart = () => {
   const {
@@ -77,7 +78,7 @@ const Cart = () => {
               clear cart
             </button>
             <button
-              onClick={handlePayment}
+              onClick={() => handlePayment()}
               className="btn btn-accent hover:bg-accent-hover text-primary flex-1 px-2 gap-x-2"
             >
               Checkout

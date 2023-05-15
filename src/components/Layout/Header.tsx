@@ -79,7 +79,7 @@ const Header = () => {
           </div>
         </div>
         {/* searchform - show on mobile only */}
-        <div className="xl:hidden">
+        <div className="mt-4 xl:hidden">
           <SearchForm />
         </div>
       </div>

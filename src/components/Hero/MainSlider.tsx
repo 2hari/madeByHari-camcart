@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Pagination, Autoplay } from "swiper"
 
@@ -59,9 +60,11 @@ const MainSlider = () => {
                     {slide.titlePart2} <br />
                     {slide.titlePart3}
                   </div>
-                  <button className="btn btn-accent mx-auto lg:mx-0">
-                    Shop now
-                  </button>
+                  <Link href={"/category/dslr"}>
+                    <button className="btn btn-accent mx-auto lg:mx-0">
+                      Shop now
+                    </button>
+                  </Link>
                 </div>
                 {/* img */}
                 <div className="flex-1">

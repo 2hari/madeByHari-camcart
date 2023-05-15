@@ -9,6 +9,7 @@ export const request = axios.create({
   },
 });
 
+
 // use only in server side fetch 
 export const createRequestString = (path: string, urlParamsObject?: object) => {
   return `${path}${urlParamsObject ? `?${qs.stringify(urlParamsObject)}` : ""}`
