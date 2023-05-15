@@ -1,13 +1,27 @@
 import CategoryNav from "@/components/Hero/CategoryNav"
 import Product from "@/components/Product"
-import { request, createRequestString } from "@/utils/helpers"
+import {
+  request,
+  createRequestString,
+  flattenedCategory,
+  flattenedProd,
+} from "@/utils/helpers"
+import type { Category, Product as ProductType } from "@/utils/types"
 
-const CategoryPage = ({ products, slug }: { products: any; slug: string }) => {
+const CategoryPage = ({
+  products,
+  slug,
+  navCategories,
+}: {
+  products: ProductType[]
+  navCategories: Category[]
+  slug: string
+}) => {
   return (
-    <div className="mb-16 pt-40 lg:pt-0">
+    <div className="mb-16 pt-40 lg:pt-0 min-h-[820px]">
       <div className="container mx-auto">
         <div className="flex gap-x-[30px]">
-          <CategoryNav />
+          <CategoryNav navCategories={navCategories} />
           <main>
             {/* title */}
             <div className="py-3 text-xl uppercase text-center lg:text-left">
@@ -43,9 +57,8 @@ export async function getStaticPaths() {
   }
 }
 
-// @ts-ignore
-export async function getStaticProps({ params }) {
-  const { data } = await request.get(
+export async function getStaticProps({ params }: { params: { slug: string } }) {
+  const { data: prodData } = await request.get(
     createRequestString("/products", {
       populate: "*",
       filters: {
@@ -56,9 +69,17 @@ export async function getStaticProps({ params }) {
     })
   )
 
+  const { data: navData } = await request.get(
+    createRequestString("/categories")
+  )
+
+  const products = prodData.data.map((i: any) => flattenedProd(i))
+  const navCategories = navData.data.map((i: any) => flattenedCategory(i))
+
   return {
     props: {
-      products: data.data,
+      products,
+      navCategories,
       slug: params.slug,
     },
   }

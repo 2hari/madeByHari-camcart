@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { SlBag } from "react-icons/sl"
@@ -6,9 +6,21 @@ import { FiMenu } from "react-icons/fi"
 
 import SearchForm from "@/components/SearchForm"
 import CategoryNavMobile from "./CategoryNavMobile"
+import Cart from "@/components/Cart"
+import useCart from "@/utils/useCart"
 
 const Header = () => {
   const [catNavMobile, setCatNavMobile] = useState(false)
+  const {
+    dispatch,
+    REDUCER_ACTIONS,
+    state: { totalItems, isOpen },
+  } = useCart()
+
+  const openCart = () => {
+    dispatch({ type: REDUCER_ACTIONS.OPEN })
+  }
+
   return (
     <header className="bg-primary py-6 fixed w-full top-0 z-40 lg:relative xl:mb-[30px]">
       <div className="container mx-auto">
@@ -49,20 +61,20 @@ const Header = () => {
               Need help? 123 456 789
             </div>
             {/* cart icon */}
-            <div onClick={() => {}} className="relative cursor-pointer">
+            <div onClick={() => openCart()} className="relative cursor-pointer">
               <SlBag className="text-2xl text-white" />
               {/* amount */}
               <div className="bg-accent text-primary absolute w-[20px] h-[20px] rounded-full top-3 -right-1 text-[12px] flex justify-center items-center font-bold tracking-[-0.1em]">
-                10
+                {totalItems}
               </div>
             </div>
             {/* cart */}
             <div
               className={`
-              ${false ? "right-0" : "-right-full"}
+              ${isOpen ? "right-0" : "-right-full"}
 							bg-[#0e0f10] shadow-xl fixed top-0 bottom-0 w-full z-10 md:max-w-[500px] transition-all duration-300`}
             >
-              Cart
+              <Cart />
             </div>
           </div>
         </div>

@@ -2,14 +2,14 @@ import Image from "next/image"
 import MainSlider from "./MainSlider"
 import CategoryNav from "./CategoryNav"
 
-const Hero = () => {
+const Hero = ({ navCategories }: { navCategories: any }) => {
   return (
     <section className="mb-[30px] pt-36 lg:pt-0">
       <div className="container mx-auto">
         <div className="flex flex-col gap-y-[30px] xl:flex-row xl:gap-x-[30px]">
           {/* sidebar */}
           <div>
-            <CategoryNav />
+            <CategoryNav navCategories={navCategories} />
           </div>
           {/* main slider */}
           <div className="w-full max-w-lg lg:max-w-[734px] mx-auto">
