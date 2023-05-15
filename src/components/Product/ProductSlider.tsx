@@ -2,7 +2,13 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { Pagination, Navigation } from "swiper"
 import Product from "."
 
-const ProductSlider = ({ data }: { data: any }) => {
+const ProductSlider = ({
+  data,
+  isLoading,
+}: {
+  data: any
+  isLoading: boolean
+}) => {
   return (
     <Swiper
       modules={[Pagination, Navigation]}
@@ -32,13 +38,20 @@ const ProductSlider = ({ data }: { data: any }) => {
       className="productSlider mx-auto max-w-[360px] md:max-w-lg xl:max-w-[1410px]"
     >
       <>
-        {data?.map((product: any) => {
-          return (
-            <SwiperSlide key={product.id}>
-              <Product product={product} />
+        {data &&
+          data?.map((product: any) => {
+            return (
+              <SwiperSlide key={product.id}>
+                <Product product={product} />
+              </SwiperSlide>
+            )
+          })}
+        {(isLoading || !data) &&
+          [1, 2, 3, 4, 5].map((p: any, i) => (
+            <SwiperSlide key={i}>
+              <Product product={null} isLoading={isLoading} />
             </SwiperSlide>
-          )
-        })}
+          ))}
       </>
     </Swiper>
   )

@@ -5,8 +5,8 @@ import useFetch from "@/utils/useFetch"
 
 const CategoryNav = () => {
   const { data, isLoading } = useFetch("/categories")
-  if (isLoading) return <p>loading ....</p>
-  // console.log(data)
+  // if (isLoading) return <p>loading ....</p>
+  console.log(data)
   return (
     <aside className="hidden xl:flex">
       <div className="bg-primary flex flex-col w-[286px] h-[500px] rounded-[8px] overflow-hidden">
@@ -14,7 +14,13 @@ const CategoryNav = () => {
           Browse Categories
         </div>
         <div className="flex flex-col gap-y-6 p-6">
-          {data &&
+          {isLoading || !data ? (
+            <div className="animate-pulse space-y-6">
+              {[...Array(5).keys()].map((i) => (
+                <div key={i} className="w-48 bg-gray-600 h-6 rounded-md "></div>
+              ))}
+            </div>
+          ) : (
             (data as unknown as any[]).map((category) => {
               return (
                 <Link
@@ -25,7 +31,8 @@ const CategoryNav = () => {
                   {category.attributes.title} Cameras
                 </Link>
               )
-            })}
+            })
+          )}
         </div>
       </div>
     </aside>
