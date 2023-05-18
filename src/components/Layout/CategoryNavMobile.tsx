@@ -25,7 +25,7 @@ const CategoryNavMobile = ({
           (data as unknown as any[]).map((category: any) => {
             return (
               <Link
-                href={`products/${category.id}`}
+                href={`/category/${category.title}`}
                 className="uppercase font-medium"
                 key={category.id}
                 onClick={() => setCatNavMobile(false)}
